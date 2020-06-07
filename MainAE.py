@@ -29,15 +29,15 @@ nb_users = int(max(max(training_set[:,0]), max(test_set[:,0])))
 nb_movies = int(max(max(training_set[:,1]), max(test_set[:,1])))
 
 # Converting the data into an array with users in lines and movies in columns
-training_set = convert(training_set)
-test_set = convert(test_set)
+training_set = convert(training_set, nb_users, nb_movies)
+test_set = convert(test_set, nb_users, nb_movies)
 
 # Converting the data into Torch tensors
 training_set = torch.FloatTensor(training_set)
 test_set = torch.FloatTensor(test_set)
 
 # Stacked AE
-sae = SAE()
+sae = SAE(nb_movies)
 
 criterion = nn.MSELoss()
 optimizer = optim.RMSprop(sae.parameters(), lr = 0.01, weight_decay = 0.5)

@@ -3,10 +3,12 @@
 
 @author: Roffo
 """
+import torch
+import torch.nn as nn
 
 # Creating the architecture of the Neural Network
 class SAE(nn.Module):
-    def __init__(self, ):
+    def __init__(self, nb_movies, ):
         super(SAE, self).__init__()
         self.fc1 = nn.Linear(nb_movies, 20)
         self.fc2 = nn.Linear(20, 10)
