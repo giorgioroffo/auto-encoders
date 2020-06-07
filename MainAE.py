@@ -37,7 +37,8 @@ training_set = torch.FloatTensor(training_set)
 test_set = torch.FloatTensor(test_set)
 
 # Stacked AE
-sae = SAE(nb_movies)
+nb_neurons = 20
+sae = SAE(nb_movies, nb_neurons)
 
 criterion = nn.MSELoss()
 optimizer = optim.RMSprop(sae.parameters(), lr = 0.01, weight_decay = 0.5)
@@ -53,13 +54,22 @@ for epoch in range(1, nb_epoch + 1):
         if torch.sum(target.data > 0) > 0:
             output = sae(input)
             target.require_grad = False
+            # we don't want that values where target == 0 are considered 
+            # in the computation of the error
             output[target == 0] = 0
+            # Compute the loss
             loss = criterion(output, target)
+            # Since we considered only the moview with no zero rating
+            # Average of the error wrt movies with no zero rating
             mean_corrector = nb_movies/float(torch.sum(target.data > 0) + 1e-10)
+            # Back-propagation: Decides the direction of the update
             loss.backward()
+            # We use the mean_correction 
             train_loss += np.sqrt(loss.data*mean_corrector)
             s += 1.
+            # One step optimization - The optimizer decides the intensity of the update
             optimizer.step()
+            
     print('epoch: '+str(epoch)+' loss: '+str(train_loss/s))
 
 # Testing the SAE
