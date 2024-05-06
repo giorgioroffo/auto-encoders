@@ -1,6 +1,9 @@
 # A Stacked AutoEncoder model with PyTorch
 Self-Supervised Learning 
 
+![image](https://github.com/giorgioroffo/auto-encoders/assets/6114361/139e051d-e00c-4122-9af9-2b73ab65916c)
+
+
 A Recommender System that predicts ratings from 1 to 5 on MovieLens 1M/100K Dataset
 
 Download the dataset from: https://grouplens.org/datasets/movielens/
